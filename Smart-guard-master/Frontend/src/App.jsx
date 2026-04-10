@@ -159,7 +159,8 @@ function App() {
     let reconnectTimer;
 
     const connect = () => {
-      ws = new WebSocket('ws://127.0.0.1:8001/ws/alerts');
+      const wsUrl = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8001').replace('http', 'ws');
+      ws = new WebSocket(`${wsUrl}/ws/alerts`);
       
       ws.onopen = () => {
         console.log('✅ Global WebSocket connected');

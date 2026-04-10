@@ -3,7 +3,7 @@
  * Handles API calls for events with organization-based filtering
  */
 
-const API_BASE_URL = 'http://127.0.0.1:8001';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8001';
 
 /**
  * Get events with organization filtering
