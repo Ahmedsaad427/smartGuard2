@@ -4,7 +4,9 @@ import axios from 'axios';
 import { authService } from '../services/authService';
 import Footer from '../components/Footer/Footer';
 import '../styles/Monitoring.css';
+import '../styles/BrowserCamera.css';
 import Navbar from '../components/Navbar/Navbar';
+import BrowserCamera from '../components/BrowserCamera';
 import theatreImage from '../assets/images/theatre.png';
 import playgroundImage from '../assets/images/playground.png';
 import libraryImage from '../assets/images/library.png';
@@ -572,10 +574,22 @@ function Monitoring({ events = [], unreadCount = 0, wsConnected = false, isWsCon
                     </p>
                   </div>
                 ) : (
-                  <CameraFeed 
-                    streamKey={streamKey} 
-                    handleCameraLoad={handleCameraLoad}
-                    handleCameraError={handleCameraError}
+                  <BrowserCamera 
+                    onCameraStatusChange={(status) => setCameraStatus(status)}
+                    onDetectionResult={(detection) => {
+                      // Add detection to events list
+                      const newEvent = {
+                        id: detection.id,
+                        type: detection.type,
+                        score: detection.confidence,
+                        timestamp: detection.timestamp,
+                        location: detection.location,
+                        description: `Detected: ${detection.type}`,
+                        severity: detection.confidence > 0.8 ? 'high' : 'medium'
+                      };
+                      // This would normally be sent to backend, for now just log
+                      console.log('Browser detection:', newEvent);
+                    }}
                   />
                 )}
               </div>
