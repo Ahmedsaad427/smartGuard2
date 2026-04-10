@@ -31,18 +31,94 @@ async def root():
 async def health_check():
     return {"status": "healthy", "service": "smart-guard-api"}
 
-# Simple endpoints for testing
-@app.get("/auth/test")
-async def auth_test():
-    return {"message": "Auth endpoint working", "status": "ok"}
+# Authentication endpoints
+@app.post("/auth/signin")
+async def signin(request: Request):
+    try:
+        data = await request.json()
+        email = data.get("email")
+        password = data.get("password")
+        
+        # Simple mock authentication for demo
+        if email and password:
+            return {
+                "success": True,
+                "user": {
+                    "id": 1,
+                    "email": email,
+                    "name": "Demo User",
+                    "role": "security_personnel",
+                    "organization": "Smart Guard"
+                },
+                "token": "demo_token_12345"
+            }
+        else:
+            return {"success": False, "error": "Missing credentials"}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
 
-@app.get("/users/test")
-async def users_test():
-    return {"message": "Users endpoint working", "status": "ok"}
+@app.post("/auth/signup")
+async def signup(request: Request):
+    try:
+        data = await request.json()
+        email = data.get("email")
+        password = data.get("password")
+        name = data.get("name")
+        role = data.get("role", "security_personnel")
+        organization = data.get("organization", "Smart Guard")
+        
+        # Simple mock signup for demo
+        if email and password and name:
+            return {
+                "success": True,
+                "user": {
+                    "id": 1,
+                    "email": email,
+                    "name": name,
+                    "role": role,
+                    "organization": organization
+                },
+                "token": "demo_token_12345"
+            }
+        else:
+            return {"success": False, "error": "Missing required fields"}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
 
-@app.get("/events/test")
-async def events_test():
-    return {"message": "Events endpoint working", "status": "ok"}
+@app.get("/users/me")
+async def get_current_user():
+    # Mock current user endpoint
+    return {
+        "id": 1,
+        "email": "demo@smartguard.com",
+        "name": "Demo User",
+        "role": "security_personnel",
+        "organization": "Smart Guard"
+    }
+
+@app.get("/events")
+async def get_events():
+    # Mock events endpoint
+    return [
+        {
+            "id": 1,
+            "type": "suspicious_behavior",
+            "score": 0.85,
+            "timestamp": "2026-04-10T01:30:00Z",
+            "location": "Camera 1",
+            "description": "Suspicious activity detected",
+            "severity": "high"
+        },
+        {
+            "id": 2,
+            "type": "normal_activity",
+            "score": 0.15,
+            "timestamp": "2026-04-10T01:25:00Z",
+            "location": "Camera 2",
+            "description": "Normal activity",
+            "severity": "low"
+        }
+    ]
 
 # Include all routers (without video processing) - commented out for now
 # try:
