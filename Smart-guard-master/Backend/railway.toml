@@ -1,0 +1,10 @@
+[build]
+builder = "python"
+
+[deploy]
+startCommand = "python start_backend.py"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10
+
+[env]
+PORT = "8001"
