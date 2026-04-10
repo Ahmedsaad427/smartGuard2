@@ -1,8 +1,8 @@
 [build]
-builder = "python"
+builder = "dockerfile"
 
 [deploy]
-startCommand = "python start_backend.py"
+startCommand = "python start_production.py"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 10
 
