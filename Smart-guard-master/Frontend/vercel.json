@@ -18,6 +18,6 @@
     }
   ],
   "env": {
-    "VITE_API_URL": "https://smartguard2.railway.internal"
+    "VITE_API_URL": "https://smartguard2-production.up.railway.app"
   }
 }
